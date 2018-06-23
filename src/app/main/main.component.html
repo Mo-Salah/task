@@ -2,7 +2,7 @@
     <div class="container">
       <div class="row justify-content-md-center">
         <div class="input-group mb-3 col col-md-4">
-            <input type="text" [(ngModel)]="searchString" (change)="catchSearchString()" id="search-input" class="form-control" placeholder="Search for..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <input type="text" [(ngModel)]="searchString" (change)="catchSearchString()" id="search-input" class="form-control" placeholder="Search for 'people'" aria-label="Recipient's username" aria-describedby="basic-addon2">
             <div class="input-group-append">
               <button class="btn btn-primary" (click)="getCards()" type="button">Search</button>
             </div>
@@ -14,7 +14,7 @@
         <div class="row justify-content-md-center">
           <!-- error shown when searching for something other than 'people' or the input search is empty -->
           <div class="error alert alert-danger margin-top-20" *ngIf="error">
-              You are eligible only to search for "people".
+            No data found, Try searching for 'people'.
           </div>
         </div>
       </div>
@@ -23,6 +23,21 @@
         <div class="container">
           <div class="row">
             <!-- Cards goes here -->
+            
+            <div *ngFor="let responseData of response">
+
+              <div *ngIf="success" class="thumbnail">
+                <div class="caption">
+                  <h3><strong>Name:</strong> {{responseData.name}}</h3>
+                  <p><strong>Homeworld:</strong> {{responseData.homeworld}}</p>
+                  <p><strong>Height:</strong> {{responseData.height}}</p>
+                  <p><strong>URL:</strong> {{responseData.url}}</p>
+                </div>
+              </div>
+
+            </div>
+
+          
           </div>
         </div>
       </div>

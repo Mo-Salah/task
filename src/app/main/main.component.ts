@@ -10,6 +10,10 @@ declare var $ :any;
 })
 export class MainComponent implements OnInit {
 
+  success: boolean;
+
+  response: any;
+
   // catch the entered input value to submit it to catchSearchString()
   searchString: string;
 
@@ -30,32 +34,15 @@ export class MainComponent implements OnInit {
 
   // handle the response from the API that come from the search.service and render it as cards in DOM
   getCards() {
+
     this.search.getData().subscribe(
       next => {
 
-        // clear the inner html of the div so if the user re-entered 'people' in the input field,
-        // the cards don't get repeated and only rendered once.
-        $('.cards .row').html("");
+        // to bind data in {{HTML}}
+        this.response = next.results; 
 
-        // loop in the response array and render the cards in DOM.
-        // using inline-css so it applies when the response come true,
-        // it won't apply if the style where in external css file
-        for (let i = 0; i < next.results.length; i++) {
-          $('.cards .row').append(`<div class="col-lg-4 draggable">
-            <div class="thumbnail" style="box-shadow: 0px 5px 9px 1px #ddd;padding:0;margin-bottom:30px">
-              <div class="caption" style="padding:0;background:#fff;">
-                <h3 style="font-size: 16px;
-                padding: 20px;
-                margin: 0 0 20px 0;
-                background: #f0f1f2;
-                border: 1px solid #f0f1f2;"><strong>Name:</strong> ${next.results[i].name}</h3>
-                <p style="font-size:14px;padding: 0px 20px 20px;margin: 0;"><strong>Homeworld:</strong> ${next.results[i].homeworld}</p>
-                <p style="font-size:14px;padding: 0px 20px 20px;margin: 0;"><strong>Height:</strong> ${next.results[i].height}</p>
-                <p style="font-size:14px;padding: 0px 20px 20px;margin: 0;"><strong>URL:</strong> ${next.results[i].url}</p>
-              </div>
-            </div>
-          </div>`);
-        }
+        // to show the HTML of cards when respons done properly
+        this.success = true;
 
       },
       error => {
@@ -70,11 +57,9 @@ export class MainComponent implements OnInit {
         // reset input data-bind after cards rendered
         this.search.setString(undefined);
 
-        // make cards draggable and droppable anywhere in screen
-        $('.draggable').draggable();
-
         // reset input value after cards rendered
         $('#search-input').val('');
+        
       }
     )
   }
